@@ -1,0 +1,5 @@
+# Ignore all emacs backup files
+*~
+xcuserdata
+
+.DS_Store
