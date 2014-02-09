@@ -37,8 +37,7 @@
 }
 
 +(NSString*) hasCydia {
-    NSString *filePath = @"/Applications/Cydia.app";
-    if ([[NSFileManager defaultManager] fileExistsAtPath:filePath]) {
+    if ([[NSFileManager defaultManager] fileExistsAtPath:@"/Applications/Cydia.app"]) {
         return @"CYDIA";
     } else {
         return @"NOCYDIA";
@@ -46,54 +45,25 @@
 }
 
 +(NSString*)languageList {
-    NSMutableString *languages = [NSMutableString string];
-    NSString* lang;
-    
-    for (lang in [NSLocale preferredLanguages]) {
-        [languages appendString:lang];
-    }
-    
-    return languages;
+    return [[NSLocale preferredLanguages] componentsJoinedByString:@","];
 }
 
 + (NSString*) buildRawString{
+    NSMutableArray* rawComponents = [NSMutableArray array];
 
-    NSMutableString *raw = [NSMutableString string];
-    
-    [raw appendString:[self getSysInfoByName:"hw.machine"]];
-    [raw appendString:@"|"];
+    [rawComponents addObject:[self getSysInfoByName:"hw.machine"]];
+    [rawComponents addObject:[[UIDevice currentDevice] name]];
+    [rawComponents addObject:[[UIDevice currentDevice] systemName]];
+    [rawComponents addObject:[[UIDevice currentDevice] systemVersion]];
+    [rawComponents addObject:[[UIDevice currentDevice] model]];
+    [rawComponents addObject:[[NSTimeZone systemTimeZone] name]];
+    [rawComponents addObject:[self diskSpace]];
+    [rawComponents addObject:[[NSLocale autoupdatingCurrentLocale] localeIdentifier]];
+    [rawComponents addObject:[self canOpenFB]];
+    [rawComponents addObject:[self hasCydia]];
+    [rawComponents addObject:[self languageList]];
 
-    [raw appendString:[[UIDevice currentDevice] name]];
-    [raw appendString:@"|"];
-
-    [raw appendString:[[UIDevice currentDevice] systemName]];
-    [raw appendString:@"|"];
-    
-    [raw appendString:[[UIDevice currentDevice] systemVersion]];
-    [raw appendString:@"|"];
-
-    [raw appendString:[[UIDevice currentDevice] model]];
-    [raw appendString:@"|"];
-
-    [raw appendString:[[NSTimeZone systemTimeZone] name]];
-    [raw appendString:@"|"];
-    
-    [raw appendString:[self diskSpace]];
-    [raw appendString:@"|"];
-
-    [raw appendString:[[NSLocale autoupdatingCurrentLocale] localeIdentifier]];
-    [raw appendString:@"|"];
-
-    [raw appendString:[self canOpenFB]];
-    [raw appendString:@"|"];
-    
-    [raw appendString:[self hasCydia]];
-    [raw appendString:@"|"];
-    
-    [raw appendString:[self languageList]];
-    [raw appendString:@"|"];
-    
-    return raw;
+    return [rawComponents componentsJoinedByString:@"|"];
 }
 
 + (NSString*) aoi{
