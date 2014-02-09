@@ -45,6 +45,17 @@
     }
 }
 
++(NSString*)languageList {
+    NSMutableString *languages = [NSMutableString string];
+    NSString* lang;
+    
+    for (lang in [NSLocale preferredLanguages]) {
+        [languages appendString:lang];
+    }
+    
+    return languages;
+}
+
 + (NSString*) buildRawString{
 
     NSMutableString *raw = [NSMutableString string];
@@ -79,12 +90,16 @@
     [raw appendString:[self hasCydia]];
     [raw appendString:@"|"];
     
+    [raw appendString:[self languageList]];
+    [raw appendString:@"|"];
+    
     return raw;
 }
 
 + (NSString*) aoi{
     NSString* rawString = [self buildRawString];
-
+    NSLog(@"Raw aoi: %@", rawString);
+    
     NSData *data = [rawString dataUsingEncoding: NSUTF8StringEncoding];
     
     uint8_t digest[CC_SHA1_DIGEST_LENGTH];
