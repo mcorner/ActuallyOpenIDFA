@@ -29,11 +29,15 @@
 }
 
 +(NSString*) canOpenFB {
-    if ([[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:@"fb://"]]) {
-        return @"FB";
-    } else {
-        return @"NOFB";
+    NSArray *apps = [NSArray arrayWithObjects:@"fb://",@"twitter://",nil];
+    NSString* a;
+    NSMutableString* installed = [NSMutableString string];
+
+    for (a in apps){
+        NSURL* url = [NSURL URLWithString:a];
+        [[UIApplication sharedApplication] canOpenURL:url] ? [installed appendString:@"YES,"] : [installed appendString:@"NO,"];
     }
+    return installed;
 }
 
 +(NSString*) hasCydia {
