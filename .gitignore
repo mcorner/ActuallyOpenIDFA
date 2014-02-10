@@ -1,5 +1,9 @@
 # Ignore all emacs backup files
 *~
-xcuserdata
 
+#Xcode artifacts
+xcuserdata
+build/
+
+#Apple artifacts
 .DS_Store
