@@ -6,6 +6,8 @@
 #include <CommonCrypto/CommonDigest.h>
 #import <CoreTelephony/CTCarrier.h>
 #import <CoreTelephony/CTTelephonyNetworkInfo.h>
+#import <MessageUI/MessageUI.h>
+#import <MessageUI/MFMailComposeViewController.h>
 
 @implementation aoi
 
@@ -31,30 +33,30 @@
 }
 
 +(NSString*) canOpenApps {
-    NSArray *apps = [NSArray arrayWithObjects:@"fb://",@"twitter://",nil];
+    NSArray *apps = [NSArray arrayWithObjects:@"tel://", @"sms://",@"fb://",@"twitter://",nil];
     NSString* a;
     NSMutableString* installed = [NSMutableString string];
 
     for (a in apps){
         NSURL* url = [NSURL URLWithString:a];
-        [[UIApplication sharedApplication] canOpenURL:url] ? [installed appendString:@"YES,"] : [installed appendString:@"NO,"];
+        [[UIApplication sharedApplication] canOpenURL:url] ? [installed appendString:@"T"] : [installed appendString:@"F"];
     }
     return installed;
 }
 
 +(NSString*) hasCydia {
     if ([[NSFileManager defaultManager] fileExistsAtPath:@"/Applications/Cydia.app"]) {
-        return @"CYDIA";
+        return @"T";
     } else {
-        return @"NOCYDIA";
+        return @"F";
     }
 }
 
-+(NSString*)languageList {
++(NSString*) languageList {
     return [[NSLocale preferredLanguages] componentsJoinedByString:@","];
 }
 
-+(NSString*)carrierInfo {
++(NSString*) carrierInfo {
     NSMutableString* cInfo = [NSMutableString string];
     
     CTTelephonyNetworkInfo *networkInfo = [[CTTelephonyNetworkInfo alloc] init];
@@ -78,7 +80,22 @@
     return cInfo;
 }
 
-+ (NSString*) buildRawString{
++(NSString*) messageConfigs {
+    NSMutableString* configs = [NSMutableString string];
+    
+    [MFMailComposeViewController canSendMail] ? [configs appendString:@"T"] : [configs appendString:@"F"];
+    [MFMessageComposeViewController canSendText] ? [configs appendString:@"T"] : [configs appendString:@"F"];
+    if([MFMessageComposeViewController respondsToSelector:@selector(canSendAttachments)]){
+        [MFMessageComposeViewController canSendAttachments] ? [configs appendString:@"T"] : [configs appendString:@"F"];
+    }
+    if([MFMessageComposeViewController respondsToSelector:@selector(canSendSubject)]){
+        [MFMessageComposeViewController canSendSubject] ? [configs appendString:@"T"] : [configs appendString:@"F"];
+    }
+
+    return configs;
+}
+
++ (NSString*) buildRawString {
     NSMutableArray* rawComponents = [NSMutableArray array];
 
     [rawComponents addObject:[self getSysInfoByName:"hw.machine"]];
@@ -93,11 +110,12 @@
     [rawComponents addObject:[self hasCydia]];
     [rawComponents addObject:[self languageList]];
     [rawComponents addObject:[self carrierInfo]];
-
-    return [rawComponents componentsJoinedByString:@"|"];
+    [rawComponents addObject:[self messageConfigs]];
+    
+    return [rawComponents componentsJoinedByString:@","];
 }
 
-+ (NSString*) aoi{
++ (NSString*) aoi {
     NSString* rawString = [self buildRawString];
     NSLog(@"Raw aoi: %@", rawString);
     

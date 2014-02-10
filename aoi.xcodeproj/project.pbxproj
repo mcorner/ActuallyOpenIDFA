@@ -31,6 +31,7 @@
 		6003604618A6E9030077F54C /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6003604418A6E9030077F54C /* InfoPlist.strings */; };
 		6003604818A6E9030077F54C /* aoiTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6003604718A6E9030077F54C /* aoiTests.m */; };
 		603A4B2C18A80D13006CC36E /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 603A4B2B18A80D13006CC36E /* CoreTelephony.framework */; };
+		603A4B3018A87C6C006CC36E /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 603A4B2F18A87C6C006CC36E /* MessageUI.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -69,6 +70,7 @@
 		6003604518A6E9030077F54C /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		6003604718A6E9030077F54C /* aoiTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = aoiTests.m; sourceTree = "<group>"; };
 		603A4B2B18A80D13006CC36E /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
+		603A4B2F18A87C6C006CC36E /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -76,6 +78,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				603A4B3018A87C6C006CC36E /* MessageUI.framework in Frameworks */,
 				603A4B2C18A80D13006CC36E /* CoreTelephony.framework in Frameworks */,
 				6003602C18A6E9030077F54C /* Foundation.framework in Frameworks */,
 			);
@@ -117,6 +120,7 @@
 		6003602A18A6E9030077F54C /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				603A4B2F18A87C6C006CC36E /* MessageUI.framework */,
 				603A4B2B18A80D13006CC36E /* CoreTelephony.framework */,
 				6003602B18A6E9030077F54C /* Foundation.framework */,
 				6003603918A6E9030077F54C /* XCTest.framework */,
@@ -250,7 +254,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "# define output folder environment variable\nUNIVERSAL_OUTPUTFOLDER=${BUILD_DIR}/${CONFIGURATION}-universal\n\n# Step 1. Build Device and Simulator versions\nxcodebuild -target ImageFilters ONLY_ACTIVE_ARCH=NO -configuration ${CONFIGURATION} -sdk iphoneos  BUILD_DIR=\"${BUILD_DIR}\" BUILD_ROOT=\"${BUILD_ROOT}\"\nxcodebuild -target ImageFilters -configuration ${CONFIGURATION} -sdk iphonesimulator -arch i386 BUILD_DIR=\"${BUILD_DIR}\" BUILD_ROOT=\"${BUILD_ROOT}\"\n\n# make sure the output directory exists\nmkdir -p \"${UNIVERSAL_OUTPUTFOLDER}\"\n\n# Step 2. Create universal binary file using lipo\nlipo -create -output \"${UNIVERSAL_OUTPUTFOLDER}/lib${PROJECT_NAME}.a\" \"${BUILD_DIR}/${CONFIGURATION}-iphoneos/lib${PROJECT_NAME}.a\" \"${BUILD_DIR}/${CONFIGURATION}-iphonesimulator/lib${PROJECT_NAME}.a\"\n\n# Last touch. copy the header files. Just for convenience\ncp -R \"${BUILD_DIR}/${CONFIGURATION}-iphoneos/include\" \"${UNIVERSAL_OUTPUTFOLDER}/\"";
+			shellScript = "# define output folder environment variable\nUNIVERSAL_OUTPUTFOLDER=${BUILD_DIR}/${CONFIGURATION}-universal\n\n# Step 1. Build Device and Simulator versions\nxcodebuild -target aoi ONLY_ACTIVE_ARCH=NO -configuration ${CONFIGURATION} -sdk iphoneos  BUILD_DIR=\"${BUILD_DIR}\" BUILD_ROOT=\"${BUILD_ROOT}\"\nxcodebuild -target aoi -configuration ${CONFIGURATION} -sdk iphonesimulator -arch i386 BUILD_DIR=\"${BUILD_DIR}\" BUILD_ROOT=\"${BUILD_ROOT}\"\n\n# make sure the output directory exists\nmkdir -p \"${UNIVERSAL_OUTPUTFOLDER}\"\n\n# Step 2. Create universal binary file using lipo\nlipo -create -output \"${UNIVERSAL_OUTPUTFOLDER}/lib${PROJECT_NAME}.a\" \"${BUILD_DIR}/${CONFIGURATION}-iphoneos/lib${PROJECT_NAME}.a\" \"${BUILD_DIR}/${CONFIGURATION}-iphonesimulator/lib${PROJECT_NAME}.a\"\n\n# Last touch. copy the header files. Just for convenience\ncp -R \"${BUILD_DIR}/${CONFIGURATION}-iphoneos/include\" \"${UNIVERSAL_OUTPUTFOLDER}/\"";
 		};
 /* End PBXShellScriptBuildPhase section */
 
