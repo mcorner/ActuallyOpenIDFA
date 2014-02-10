@@ -30,6 +30,7 @@
 		6003604018A6E9030077F54C /* libaoi.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6003602818A6E9030077F54C /* libaoi.a */; };
 		6003604618A6E9030077F54C /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6003604418A6E9030077F54C /* InfoPlist.strings */; };
 		6003604818A6E9030077F54C /* aoiTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6003604718A6E9030077F54C /* aoiTests.m */; };
+		603A4B2C18A80D13006CC36E /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 603A4B2B18A80D13006CC36E /* CoreTelephony.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -67,6 +68,7 @@
 		6003604318A6E9030077F54C /* aoiTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "aoiTests-Info.plist"; sourceTree = "<group>"; };
 		6003604518A6E9030077F54C /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		6003604718A6E9030077F54C /* aoiTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = aoiTests.m; sourceTree = "<group>"; };
+		603A4B2B18A80D13006CC36E /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -74,6 +76,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				603A4B2C18A80D13006CC36E /* CoreTelephony.framework in Frameworks */,
 				6003602C18A6E9030077F54C /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -114,6 +117,7 @@
 		6003602A18A6E9030077F54C /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				603A4B2B18A80D13006CC36E /* CoreTelephony.framework */,
 				6003602B18A6E9030077F54C /* Foundation.framework */,
 				6003603918A6E9030077F54C /* XCTest.framework */,
 				6003603C18A6E9030077F54C /* UIKit.framework */,
@@ -454,6 +458,7 @@
 				6003604D18A6E9030077F54C /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		6003604E18A6E9030077F54C /* Build configuration list for PBXNativeTarget "aoiTests" */ = {
 			isa = XCConfigurationList;
@@ -462,6 +467,7 @@
 				6003605018A6E9030077F54C /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		6003605218A6F14F0077F54C /* Build configuration list for PBXAggregateTarget "UniversalLib" */ = {
 			isa = XCConfigurationList;
@@ -470,6 +476,7 @@
 				6003605418A6F14F0077F54C /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

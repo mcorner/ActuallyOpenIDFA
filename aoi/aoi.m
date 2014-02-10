@@ -4,6 +4,8 @@
 #import <sys/sysctl.h>
 #import <UIKit/UIKit.h>
 #include <CommonCrypto/CommonDigest.h>
+#import <CoreTelephony/CTCarrier.h>
+#import <CoreTelephony/CTTelephonyNetworkInfo.h>
 
 @implementation aoi
 
@@ -28,7 +30,7 @@
     return [[dictionary objectForKey: NSFileSystemSize] stringValue];
 }
 
-+(NSString*) canOpenFB {
++(NSString*) canOpenApps {
     NSArray *apps = [NSArray arrayWithObjects:@"fb://",@"twitter://",nil];
     NSString* a;
     NSMutableString* installed = [NSMutableString string];
@@ -52,6 +54,30 @@
     return [[NSLocale preferredLanguages] componentsJoinedByString:@","];
 }
 
++(NSString*)carrierInfo {
+    NSMutableString* cInfo = [NSMutableString string];
+    
+    CTTelephonyNetworkInfo *networkInfo = [[CTTelephonyNetworkInfo alloc] init];
+    CTCarrier *carrier = [networkInfo subscriberCellularProvider];
+    
+    NSString *carrierName = [carrier carrierName];
+    if (carrierName != nil){
+        [cInfo appendString:carrierName];
+    }
+
+    NSString *mcc = [carrier mobileCountryCode];
+    if (mcc != nil){
+        [cInfo appendString:mcc];
+    }
+    
+    NSString *mnc = [carrier mobileNetworkCode];
+    if (mnc != nil){
+        [cInfo appendString:mnc];
+    }
+    
+    return cInfo;
+}
+
 + (NSString*) buildRawString{
     NSMutableArray* rawComponents = [NSMutableArray array];
 
@@ -63,9 +89,10 @@
     [rawComponents addObject:[[NSTimeZone systemTimeZone] name]];
     [rawComponents addObject:[self diskSpace]];
     [rawComponents addObject:[[NSLocale autoupdatingCurrentLocale] localeIdentifier]];
-    [rawComponents addObject:[self canOpenFB]];
+    [rawComponents addObject:[self canOpenApps]];
     [rawComponents addObject:[self hasCydia]];
     [rawComponents addObject:[self languageList]];
+    [rawComponents addObject:[self carrierInfo]];
 
     return [rawComponents componentsJoinedByString:@"|"];
 }
